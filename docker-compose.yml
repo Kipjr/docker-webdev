@@ -1,0 +1,50 @@
+version: '3.8'
+services:
+
+  #PHP Service
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app
+    restart: unless-stopped
+    tty: true
+    environment:
+      SERVICE_NAME: app
+      SERVICE_TAGS: dev
+    working_dir: /var/www
+    env_file:
+      - .env
+    ports:
+      - 8080
+    volumes:
+      - .env:/var/www/mensa/.env
+    networks:
+      - mensa
+ #   command: bash -c "php artisan migrate:fresh"
+
+  #Apache Service
+  webserver:
+    image: httpd:2.4.43
+    container_name: webserver
+    restart: unless-stopped
+    tty: true
+    networks:
+      - mensa
+
+  #MySQL Service
+  db:
+    container_name: db
+    image: 'yobasystems/alpine-mariadb:latest'
+    environment:
+      MYSQL_ROOT_PASSWORD: 'mensa'
+      MYSQL_DATABASE: 'mensa'
+      MYSQL_USER: 'mensa'
+      MYSQL_PASSWORD: 'mensa'
+    networks:
+      - mensa
+
+#Docker Networks
+networks:
+  mensa:
+    driver: bridge
