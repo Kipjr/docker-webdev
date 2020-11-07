@@ -48,7 +48,7 @@ services:
       PHPLDAPADMIN_LDAP_HOSTS: ldap
       PHPLDAPADMIN_HTTPS: "false"
     ports:
-      - 8082:80
+      - 8081:80
     networks:
       - net  
 
@@ -70,15 +70,14 @@ services:
     environment:
       APP_NAME: baragenda
     ports:
-      - 1234:8080
+      - 8080:8080
     volumes:
       - ./laravel-app:/var/www/laravel
       - "./etc/php/local.ini:/usr/local/etc/php/conf.d/local.ini"
     networks:
       - net
     command: bash -c "
-             if ls /var/www/$$APP_NAME 2> /tmp/test.txt; then mv /var/www/$$APP_NAME /var/www/laravel/$$APP_NAME ; else echo 0; fi
-             && cd /var/www/laravel/$$APP_NAME
+             cd /var/www/laravel/$$APP_NAME
              && php artisan migrate
              && php artisan serve --port=8080 --host=app"
 
