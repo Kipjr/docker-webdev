@@ -76,10 +76,11 @@ services:
       - "./etc/php/local.ini:/usr/local/etc/php/conf.d/local.ini"
     networks:
       - net
-    command: bash -c "
-             cd /var/www/laravel/$$APP_NAME
+    command: bash -c '
+             $$(if [ ! "$$(ls -A /var/www/laravel/)" ]; then cp /var/www/laravel.template/* /var/www/laravel/ -r; fi)
+             && cd /var/www/laravel/$$APP_NAME
              && php artisan migrate
-             && php artisan serve --port=8080 --host=app"
+             && php artisan serve --port=8080 --host=app'
 
 #Docker Networks
 networks:
