@@ -40,6 +40,7 @@ services:
       args:
         APP_NAME: "mensa"
         APP_REPO: "https://github.com/vslcatena/mensa.git"
+        APP_REPO_BRANCHL: "dev"
     container_name: app
     depends_on: 
       - db    
@@ -49,7 +50,6 @@ services:
       - SERVICE_NAME: app
       - SERVICE_TAGS: dev
       - APP_NAME: mensa
-      - APP_REPO: https://github.com/vslcatena/mensa.git
     ports:
       - 1234:8080
     volumes:
