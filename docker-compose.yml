@@ -2,18 +2,18 @@ version: '3.8'
 services:
 
   #Apache Service
-  webserver:
-    hostname: httpd
-    image: httpd:2.4.43
-    container_name: webserver
-    depends_on:
-      - app
-    volumes:
-      - "./etc/apache2/:/etc/apache2/"
-    restart: unless-stopped
-    tty: true
-    networks:
-      - net
+  #webserver:
+  #  hostname: httpd
+  #  image: httpd:2.4.43
+  #  container_name: webserver
+  #  depends_on:
+  #    - app
+  #  volumes:
+  #    - "./etc/apache2/:/etc/apache2/"
+  #  restart: unless-stopped
+  #  tty: true
+  #  networks:
+  #    - net
 
   #MySQL Service
   db:
