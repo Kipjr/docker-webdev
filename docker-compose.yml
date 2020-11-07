@@ -21,10 +21,10 @@ services:
     container_name: db
     image: 'yobasystems/alpine-mariadb:latest'
     environment:
-      MYSQL_ROOT_PASSWORD: 'mensa'
-      MYSQL_DATABASE: 'mensa'
-      MYSQL_USER: 'mensa'
-      MYSQL_PASSWORD: 'mensa'
+      MYSQL_ROOT_PASSWORD: 'db'
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'db'
+      MYSQL_PASSWORD: 'db'
     volumes:
       - dbdata:/var/lib/mysql/ # allows you to stop and restart the db service without losing data
       - ./etc/mysql/my.cnf:/etc/mysql/my.cnf
@@ -37,14 +37,19 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        APP_NAME: "mensa"
+        APP_REPO: "https://github.com/vslcatena/mensa.git"
     container_name: app
-    depends_on:
+    depends_on: 
       - db    
     restart: unless-stopped
     tty: true
     environment:
-      SERVICE_NAME: app
-      SERVICE_TAGS: dev
+      - SERVICE_NAME: app
+      - SERVICE_TAGS: dev
+      - APP_NAME: mensa
+      - APP_REPO: https://github.com/vslcatena/mensa.git
     ports:
       - 1234:8080
     volumes:
@@ -53,8 +58,8 @@ services:
     networks:
       - net
     command: bash -c "
-             if ls /var/www/mensa 2> /tmp/test.txt; then mv /var/www/mensa /var/www/laravel/mensa ; else echo 0; fi
-             && cd /var/www/laravel/mensa
+             if ls /var/www/${APP_NAME} 2> /tmp/test.txt; then mv /var/www/${APP_NAME} /var/www/laravel/${APP_NAME} ; else echo 0; fi
+             && cd /var/www/laravel/${APP_NAME}
              && php artisan migrate
              && php artisan serve --port=8080 --host=app"
 
