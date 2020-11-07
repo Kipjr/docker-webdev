@@ -4,7 +4,8 @@ ARG APP_REPO
 ARG APP_REPO_BRANCH
 
 # Set working directory
-WORKDIR /var/www/
+CMD mkdir /var/www/laravel -p
+WORKDIR /var/www/laravel
 
 # Install dependencies
 RUN apt-get update && apt-get install -y \
@@ -19,7 +20,7 @@ RUN apt-get update && apt-get install -y \
 
 # install app
 RUN git clone $APP_REPO
-WORKDIR /var/www/$APP_NAME
+WORKDIR /var/www/laravel/$APP_NAME
 RUN git checkout $APP_REPO_BRANCH
 ADD .env /var/www/$APP_NAME/
 
@@ -47,7 +48,7 @@ RUN php artisan key:generate #needs .env
 CMD php artisan config:cache
 
 #issue with persistent storage
-WORKDIR /var/www/
+WORKDIR /var/www/laravel
 
 # Change current user to www | for debug comment this
 #USER www-data  #does not work yet due to permission issues
