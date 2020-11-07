@@ -58,8 +58,8 @@ services:
     networks:
       - net
     command: bash -c "
-             if ls /var/www/${APP_NAME} 2> /tmp/test.txt; then mv /var/www/${APP_NAME} /var/www/laravel/${APP_NAME} ; else echo 0; fi
-             && cd /var/www/laravel/${APP_NAME}
+             if ls /var/www/$$APP_NAME 2> /tmp/test.txt; then mv /var/www/$$APP_NAME /var/www/laravel/$$APP_NAME ; else echo 0; fi
+             && cd /var/www/laravel/$$APP_NAME
              && php artisan migrate
              && php artisan serve --port=8080 --host=app"
 
