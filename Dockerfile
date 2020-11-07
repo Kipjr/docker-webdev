@@ -22,6 +22,8 @@ RUN git clone $APP_REPO
 WORKDIR /var/www/$APP_NAME
 RUN git checkout $APP_REPO_BRANCH
 
+RUN bash -c "if [[ ! -f /var/www/$APP_NAME/.env ]]; then cp /var/www/$APP_NAME/.env.example /var/www/$APP_NAME/.env; fi"
+
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php composer-setup.php
 RUN php -r "unlink('composer-setup.php');"
@@ -34,6 +36,7 @@ RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 RUN docker-php-ext-install pdo_mysql mbstring ldap zip
 
 #initialize laravel dep
+RUN php ./composer.phar update
 RUN php ./composer.phar install
 
 # Copy existing application directory permissions
