@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y \
 RUN git clone $APP_REPO
 WORKDIR /var/www/laravel/$APP_NAME
 RUN git checkout $APP_REPO_BRANCH
-ADD .env /var/www/$APP_NAME/
+ADD .env /var/www/laravel/$APP_NAME/
 
 #install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
