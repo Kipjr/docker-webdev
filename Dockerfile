@@ -17,13 +17,13 @@ RUN apt-get update && apt-get install -y \
     git \
     curl
 
-# install mensa
+# install app
 RUN git clone $APP_REPO
 WORKDIR /var/www/$APP_NAME
 RUN git checkout $APP_REPO_BRANCH
+ADD .env /var/www/$APP_NAME/
 
-RUN bash -c "if [[ ! -f /var/www/$APP_NAME/.env ]]; then cp /var/www/$APP_NAME/.env.example /var/www/$APP_NAME/.env; fi"
-
+#install composer
 RUN php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
 RUN php composer-setup.php
 RUN php -r "unlink('composer-setup.php');"
