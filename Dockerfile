@@ -49,7 +49,7 @@ CMD php artisan config:cache
 
 #issue with persistent storage
 WORKDIR /var/www/laravel
-
+RUN mv /var/www/laravel /var/www/laravel.template
 # Change current user to www | for debug comment this
 #USER www-data  #does not work yet due to permission issues
 
