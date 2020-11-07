@@ -48,6 +48,8 @@ APP_REPO = https://github.com/vslcatena/mensa.git
 
 1. ```git clone https://github.com/vslcatena/docker-laravel``` 
 
+2. Get .env.example from your repo and fill in your variables
+
 3. Check configuration in docker-compose 
 
 4. ```screen -R APP_NAME```
