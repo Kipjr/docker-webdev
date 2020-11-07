@@ -37,8 +37,11 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        APP_NAME: "mensa"
+        APP_REPO: "https://github.com/vslcatena/mensa.git"
     container_name: app
-    depends_on:
+    depends_on: 
       - db    
     restart: unless-stopped
     tty: true
