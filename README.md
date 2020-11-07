@@ -1,4 +1,10 @@
-*Docker container for vslcatena/mensa*
+*Docker container for laravel apps, in this case vslcatena/mensa*
+
+APP_NAME = mensa (must be EXACTLY the same as repo name!)
+
+APP_REPO = https://github.com/vslcatena/mensa.git
+
+# Contents
 
 - [Changelog](#changelog)
 - [Purpose](#purpose)
