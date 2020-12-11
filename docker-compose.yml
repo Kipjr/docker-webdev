@@ -2,18 +2,18 @@ version: '3.8'
 services:
 
   #Apache Service
-  #webserver:
-  #  hostname: httpd
-  #  image: httpd:2.4.43
-  #  container_name: webserver
-  #  depends_on:
-  #    - app
-  #  volumes:
-  #    - "./etc/apache2/:/etc/apache2/"
-  #  restart: unless-stopped
-  #  tty: true
-  #  networks:
-  #    - net
+  webserver:
+    hostname: apache2
+    image: httpd:2.4.43
+    container_name: webserver
+    depends_on:
+      - app
+    volumes:
+      - "./etc/apache2/:/etc/apache2/"
+    restart: unless-stopped
+    tty: true
+    networks:
+      - net
 
   #MySQL Service
   db:
@@ -58,29 +58,18 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-      args:
-        APP_NAME: baragenda
-        APP_REPO: https://github.com/vslcatena/baragenda.git
-        APP_REPO_BRANCH: dev
     container_name: app
     depends_on: 
       - db    
     restart: unless-stopped
     tty: true
-    environment:
-      APP_NAME: baragenda
     ports:
       - 8080:8080
     volumes:
-      - ./laravel-app:/var/www/laravel
+      - ./www:/var/www/
       - "./etc/php/local.ini:/usr/local/etc/php/conf.d/local.ini"
     networks:
       - net
-    command: bash -c '
-             $$(if [ ! "$$(ls -A /var/www/laravel/)" ]; then cp /var/www/laravel.template/* /var/www/laravel/ -r; fi)
-             && cd /var/www/laravel/$$APP_NAME
-             && php artisan migrate
-             && php artisan serve --port=8080 --host=app'
 
 #Docker Networks
 networks:
@@ -88,6 +77,4 @@ networks:
     driver: bridge
 volumes:
   dbdata:
-    driver: local
-  laravel-app:
     driver: local
